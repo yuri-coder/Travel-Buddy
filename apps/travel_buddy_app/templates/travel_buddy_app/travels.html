@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Travel Dashboard</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	<!-- Popper JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class = "container">
+	<div class = "header mb-3">
+		<h1 class = "d-inline-block m-2">Hello, {{user.name}}!</h1>
+		<a href = "/logout"><button class = "btn btn-info float-right d-inline-block m-3">Logout</button></a>
+	</div>
+	{% if messages %}
+		<div class = "card text-white bg-success m-3">
+			<div class = "card-header">Nice!</div>
+			<div class = "card-body">
+				<ul>
+				{% for message in messages %}
+					<li>{{ message }}</li>
+				{% endfor %}
+				</ul>
+			</div>
+		</div>
+	{% endif %}
+
+	<div class = "container your-travels">
+		<h2>Your Trip Schedules</h2>
+		<table class = "table table-striped">
+			<thead>
+				<tr>
+					<th scope = "col">Destination</th>
+					<th scope = "col">Travel Start Date</th>
+					<th scope = "col">Travel End Date</th>
+					<th scope = "col">Plan</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for travel in my_travels %}
+				<tr>
+					<td><a href = "/travels/destination/{{travel.id}}">{{ travel.destination }}</a></td>
+					<td>{{ travel.travel_date_from }}</td>
+					<td>{{ travel.travel_date_to }}</td>
+					<td>{{ travel.description }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<br>
+	<div class = "container other-travels">
+		<h2>Other Users' Travel Plans</h2>
+		<table class = "table table-striped">
+			<thead>
+				<tr>
+					<th scope = "col">Name</th>
+					<th scope = "col">Destination</th>
+					<th scope = "col">Travel Start Date</th>
+					<th scope = "col">Travel End Date</th>
+					<th scope = "col">Do You Want To Join?</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for travel in all_travels %}
+				<tr>
+					<td>{{ travel.planned_by.name }}</td>
+					<td><a href = "/travels/destination/{{travel.id}}">{{ travel.destination }}</a></td>
+					<td>{{ travel.travel_date_from }}</td>
+					<td>{{ travel.travel_date_to }}</td>
+					<td><a href = "/join/{{travel.id}}">Join</a></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<a href="/travels/add"><button class = "btn btn-info float-right">Add Travel Plan</button></a>
+	</div>
+
+</div>
+</body>
+</html>
